@@ -54,7 +54,10 @@ class ProfileForm extends React.Component{
         var n=  str.length;
         var lang_str=str.substr(0,n-1);
 
-        const date_str=''+this.props.data[1];
+        let date_str=''+this.props.data[1];
+        if(date_str.length<3){
+            date_str='19700101';
+        }
 
         this.setState({
             name:this.props.data[0],
@@ -63,56 +66,57 @@ class ProfileForm extends React.Component{
             twitter:this.props.bytesToString(this.props.data[3]),
             linkedIn:this.props.bytesToString(this.props.data[4]),
             slack:this.props.bytesToString(this.props.data[5]),
-            languages:str
+            languages:lang_str
         });  
     }
 
     formSubmit(e){
         e.preventDefault();
 
-        const isNameEntered=this.state.isNameEntered;
-        const isDOBEntered=this.state.isDOBEntered;
-        const isGithubEntered=this.state.isGithubEntered;
-        const isLanguagesEntered=this.state.isLanguagesEntered;
-        const isLinkedInEntered=this.state.isLinkedInEntered;
-        const isSlackEntered=this.state.isSlackEntered;
-        const isTwitterEntered=this.state.isTwitterEntered;
+        let name,github,twitter,linkedIn,slack,language_state;
+        name=this.state.name;
+        github=this.state.github;
+        twitter=this.state.twitter;
+        linkedIn=this.state.linkedIn;
+        slack=this.state.slack;
+        language_state=this.state.languages;
+        if((name.length>=3) && (github.length>=3) && (twitter.length>=3) && (linkedIn.length>=3) && (slack.length>=3) && (language_state.length>0)){
+            var languages=this.state.languages.split(',');
+            
+            for(var i=0;i<languages.length;i++){
+                languages[i]=parseInt(languages[i]);
+            }
+            const dob=new Date(this.state.dob);
+            const dob_str=dob.getFullYear()+this.twoDigitNumber(dob.getMonth()+1)+this.twoDigitNumber(dob.getDate());
 
-        if((!isDOBEntered) || (!isGithubEntered) || (!isLanguagesEntered) || (!isLinkedInEntered) || (!isNameEntered) || (!isSlackEntered) || (!isTwitterEntered)){
-            this.setState({
-                isDOBEntered:true,
-                isGithubEntered:true,
-                isLanguagesEntered:true,
-                isLinkedInEntered:true,
-                isNameEntered:true,
-                isSlackEntered:true,
-                isTwitterEntered:true
-            });
+            this.props.onFormSubmit(
+                this.state.name,
+                parseInt(dob_str),
+                this.state.github,
+                this.state.twitter,
+                this.state.linkedIn,
+                this.state.slack,
+                languages
+            );
         }else{
-            let name,github,twitter,linkedIn,slack,languages;
-            name=this.state.name;
-            github=this.state.github;
-            twitter=this.state.twitter;
-            linkedIn=this.state.linkedIn;
-            slack=this.state.slack;
-            languages=this.state.languages;
-            if((name.length>=3) && (github.length>=3) && (twitter.length>=3) && (linkedIn.length>=3) && (slack.length>=3) && (languages.length>0)){
-                var languages=this.state.languages.split(',');
-                for(var i=0;i<languages.length;i++){
-                    languages[i]=parseInt(languages[i]);
-                }
-                const dob=new Date(this.state.dob);
-                const dob_str=dob.getFullYear()+this.twoDigitNumber(dob.getMonth()+1)+this.twoDigitNumber(dob.getDate());
-        
-                this.props.onFormSubmit(
-                    this.state.name,
-                    parseInt(dob_str),
-                    this.state.github,
-                    this.state.twitter,
-                    this.state.linkedIn,
-                    this.state.slack,
-                    languages
-                );
+            const isNameEntered=this.state.isNameEntered;
+            const isDOBEntered=this.state.isDOBEntered;
+            const isGithubEntered=this.state.isGithubEntered;
+            const isLanguagesEntered=this.state.isLanguagesEntered;
+            const isLinkedInEntered=this.state.isLinkedInEntered;
+            const isSlackEntered=this.state.isSlackEntered;
+            const isTwitterEntered=this.state.isTwitterEntered;
+    
+            if((!isDOBEntered) || (!isGithubEntered) || (!isLanguagesEntered) || (!isLinkedInEntered) || (!isNameEntered) || (!isSlackEntered) || (!isTwitterEntered)){
+                this.setState({
+                    isDOBEntered:true,
+                    isGithubEntered:true,
+                    isLanguagesEntered:true,
+                    isLinkedInEntered:true,
+                    isNameEntered:true,
+                    isSlackEntered:true,
+                    isTwitterEntered:true
+                });
             }
         }
     }

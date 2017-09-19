@@ -16,6 +16,7 @@ contract('AdoptersProfile', function(accounts) {
       instance.updateProfile(fullName2, 521251200, "parag-arora", "paragarora", "paragarora", "parag", [0,1]);
       return instance.getProfile.call(accounts[0]);
     }).then(function(profile){
+      console.log(profile);
       assert.equal(profile[0], fullName2, "fullName was found different than what was set");
     });
   });

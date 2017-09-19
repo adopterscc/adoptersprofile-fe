@@ -59,7 +59,7 @@ class Main extends React.Component{
             },200);
         }else{
             web3 = new Web3(web3.currentProvider);
-            adoptersProfileContract=web3.eth.contract(adoptersProfileArtifacts.abi).at('0x209334b61a4c61c78566f5b503ae880a5ccda2b8');
+            adoptersProfileContract=web3.eth.contract(adoptersProfileArtifacts.abi).at('0x6e19e18e600bdf37345cb5b43dc29565593c9267');
             if(web3.eth.accounts.length>0){
                 this.setState({
                     isLoading:true,
@@ -112,8 +112,13 @@ class Main extends React.Component{
         ProfileAction.updateProfile(name,dob,github,twitter,linkedIn,slack,languages,adoptersProfileContract);
     }
 
-    getStringFromBytes(bytes){
-        return web3.toAscii(bytes);
+    getStringFromBytes(str1){
+        var hex  = str1.toString();
+        var str = '';
+        for (var n = 0; n < hex.length; n += 2) {
+            str += String.fromCharCode(parseInt(hex.substr(n, 2), 16));
+        }
+        return str;
     }
 
     render(){
