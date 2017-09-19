@@ -1,0 +1,35 @@
+
+.centerDivWrapper{
+	position: relative;
+}
+
+.centerDiv{
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%,-50%);
+}
+
+.centerHorizontalDiv{
+	position: absolute;
+	left: 50%;
+	transform: translate(-50%,-50%);
+}
+
+.centerVerticalDiv{
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+#profileForm{
+	margin-top: 40px;
+}
+
+#submitButton{
+	margin-top: 30px;
+}
+
+#footer{
+	height: 100px;
+}
