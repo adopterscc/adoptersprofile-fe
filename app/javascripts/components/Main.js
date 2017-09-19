@@ -113,6 +113,7 @@ class Main extends React.Component{
     }
 
     getStringFromBytes(str1){
+        str1=str1.replace("0x","").replace(/^0+|0+$/g, "");
         var hex  = str1.toString();
         var str = '';
         for (var n = 0; n < hex.length; n += 2) {
